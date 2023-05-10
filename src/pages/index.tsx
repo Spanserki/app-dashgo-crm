@@ -110,7 +110,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (token) {
     return {
       redirect: {
-        destination: '/dash',
+        destination: '/dashboard',
         permanent: false
       }
     }

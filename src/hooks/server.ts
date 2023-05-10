@@ -82,7 +82,7 @@ export async function PrefretchProduct(id: string) {
     )
 }
 
-export function GetProduct(id: string) {
+export function DetailsProduct(id: string) {
     return (
         useQuery(
             ['details', id],
@@ -93,6 +93,24 @@ export function GetProduct(id: string) {
             },
             {
                 staleTime: 1000 * 60 * 1, //1 minuto
+            }
+        )
+    )
+}
+
+export function FindProducts(
+    searchCategoryId: string
+) {
+    return (
+        useQuery(
+            ['findproducts'],
+            async () => {
+                const response = await api.get('/products', {
+                    params: {
+                        searchCategoryId
+                    }
+                })
+                return response.data;
             }
         )
     )

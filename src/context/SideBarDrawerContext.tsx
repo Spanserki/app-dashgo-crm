@@ -26,4 +26,4 @@ export function SideBarDrawerProvider({ children }: SideBarDrawerProviderProps) 
     )
 }
 
-export const useSideBarDrawer = () => useContext(SideBarDrawerContext)
+export const useSideBarDrawer = () => useContext(SideBarDrawerContext);

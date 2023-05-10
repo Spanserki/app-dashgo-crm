@@ -37,10 +37,11 @@ export default function UserList() {
         permissions: ['users'],
         redirect: true
     })
-
+    const isEdit = useCan({
+        permissions: ['admin'],
+    })
     const [perPage, setPerPage] = useState<number>(10);
     const [page, setPage] = useState<number>(1);
-
     const { data, isLoading, error, refetch } = GetUsers(page, perPage);
 
     useEffect(() => {
@@ -83,10 +84,10 @@ export default function UserList() {
                                 Usuários
                             </Badge>
 
-                            <Link
-                                href='/usuarios/novo-usuario'
-                            >
+                            {!!isEdit && (
                                 <Button
+                                    as={Link}
+                                    href='/usuarios/novo-usuario'
                                     size='sm'
                                     fontSize='sm'
                                     type="submit"
@@ -97,7 +98,7 @@ export default function UserList() {
                                 >
                                     Criar novo
                                 </Button>
-                            </Link>
+                            )}
                         </Flex>
 
                         <>
@@ -185,6 +186,7 @@ export default function UserList() {
                                                                         bgColor='gray.700'
                                                                         transition='0.3s'
                                                                         _hover={{ opacity: '0.7' }}
+                                                                        isDisabled={!isEdit ? true : false}
                                                                     >
                                                                         <Icon as={RiPencilLine} />
                                                                     </Button>
