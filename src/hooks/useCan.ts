@@ -37,7 +37,5 @@ export function useCan({ permissions, redirect }: UseCanParams) {
             return false;
         }
     }
-
     return true;
-
 }

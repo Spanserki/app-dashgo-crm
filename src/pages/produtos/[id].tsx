@@ -1,18 +1,41 @@
-import { Avatar, Button, Center, Container, Flex, Heading, Icon, Image, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Spinner, Text, useToast } from "@chakra-ui/react";
+import {
+    Avatar,
+    Box,
+    Button,
+    Center,
+    Container,
+    Flex,
+    Icon,
+    Image,
+    NumberDecrementStepper,
+    NumberIncrementStepper,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    Spinner,
+    Tab,
+    TabIndicator,
+    TabList,
+    Tabs,
+    Text,
+    useToast
+} from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { BsFillStarFill, BsStar, BsStarHalf } from "react-icons/bs";
+import { AiFillHeart } from "react-icons/ai";
+import { BsFillCartFill, BsFillStarFill, BsStar, BsStarHalf } from "react-icons/bs";
 import { RiArrowGoBackLine } from "react-icons/ri";
+import { Link as ReactLink } from 'react-scroll';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import Layout from "../../components/Layout";
 import { api } from "../../components/lib/api";
+import { useCart } from "../../context/CartContext";
 import { DetailsProduct } from "../../hooks/server";
 import { avaliations } from "../../utils/dataAvaliations";
 import { withSSRAuth } from "../../utils/withSSRAuth";
-import { Link as ReactLink } from 'react-scroll'
 
 export default function Detalhes() {
     const settings = {
@@ -24,10 +47,13 @@ export default function Detalhes() {
         slidesToScroll: 1,
     };
     const [isLoadingPurchaseProduct, setIsLoadingPurchaseProduct] = useState(false);
+    const [quantity, setQuantity] = useState<number>(1)
+    const [heartColor, setHeartColor] = useState<Boolean>(false)
     const toast = useToast();
     const router = useRouter();
     const { id } = router.query;
     const { data, isLoading, error } = DetailsProduct(`${id}`)
+    // console.log(data)
 
     async function handlePurchaseProduct(priceId: string) {
         setIsLoadingPurchaseProduct(true);
@@ -55,7 +81,7 @@ export default function Detalhes() {
             setIsLoadingPurchaseProduct(false);
         }
     }
-
+    const { handleProduct } = useCart();
     return (
         <Layout>
             {isLoading ? (
@@ -70,20 +96,22 @@ export default function Detalhes() {
                 <Flex
                     flexDir='column'
                 >
-                    <Link href="/produtos">
-                        <Button
-                            size="xs"
-                            background='linear-gradient(130deg, #1ea483 0%, #7465d4 100%)'
-                            _hover={{ opacity: '0.8' }}
-                            leftIcon={<Icon as={RiArrowGoBackLine} fontSize="16px" />}
-                        >
-                            Voltar ao catálogo
-                        </Button>
-                    </Link>
+                    <Button
+                        as={Link}
+                        href="/produtos"
+                        w='fit-content'
+                        size="xs"
+                        background='linear-gradient(130deg, #1ea483 0%, #7465d4 100%)'
+                        _hover={{ opacity: '0.8' }}
+                        leftIcon={<Icon as={RiArrowGoBackLine} fontSize="16px" />}
+                    >
+                        Voltar ao catálogo
+                    </Button>
                     {
                         data.map(item => {
                             return (
                                 <Flex
+                                    key={item.id}
                                     w='100%'
                                     pt={4}
                                 >
@@ -95,6 +123,7 @@ export default function Detalhes() {
                                     >
                                         <Container
                                             h='100%'
+                                            w='100%'
                                             bgColor='white'
                                             rounded={"base"}
                                             py={8}
@@ -102,22 +131,29 @@ export default function Detalhes() {
                                             <Slider {...settings} arrows={false}>
                                                 {
                                                     item.images?.map(img => {
-                                                        return (
-                                                            <Flex
-                                                                key={img.id}
-                                                                borderRadius={"md"}
-                                                                overflow={"hidden"}
-                                                            >
-                                                                <Image
-                                                                    src={img.url}
-                                                                    boxSize='100%'
-                                                                    h={{ base: 'sm', md: 'md', lg: 'md' }}
-                                                                />
-                                                            </Flex>
-                                                        )
+                                                        return <Image
+                                                            src={img.url}
+                                                            objectFit='contain'
+                                                            w='100%'
+                                                            maxH='sm'
+                                                        />
                                                     })
                                                 }
                                             </Slider>
+                                            <Button
+                                                colorScheme="transparent"
+                                                w='fit-content'
+                                                p={0}
+                                                _hover={{ opacity: '0.7' }}
+                                                onClick={() => setHeartColor(!heartColor)}
+                                                position='relative'
+                                            >
+                                                <Icon
+                                                    as={AiFillHeart}
+                                                    fontSize={34}
+                                                    color={!!heartColor ? 'red' : 'gray'}
+                                                />
+                                            </Button>
                                         </Container>
 
                                         <Flex
@@ -160,16 +196,16 @@ export default function Detalhes() {
 
                                                     <Text pl={2}>3 vendido(s)</Text>
                                                 </Flex>
-
                                                 <Flex
                                                     align='center'
                                                     gap={2}
                                                 >
-                                                    <Text>quantidade</Text>
+                                                    <Text color='gray.100'>quantidade</Text>
 
                                                     <NumberInput
                                                         focusBorderColor="red"
-                                                        defaultValue={1} size='sm'
+                                                        defaultValue={1}
+                                                        size='sm'
                                                         maxW={20}
                                                         max={20}
                                                         min={1}
@@ -181,32 +217,66 @@ export default function Detalhes() {
                                                             <NumberIncrementStepper
                                                                 color='gray.200'
                                                                 borderColor='#2D3748'
+                                                                onClick={() => setQuantity(quantity + 1)}
                                                             />
                                                             <NumberDecrementStepper
                                                                 color='gray.200'
                                                                 borderColor='#2D3748'
+                                                                onClick={() => setQuantity(quantity > 1 ? quantity - 1 : quantity)}
                                                             />
                                                         </NumberInputStepper>
                                                     </NumberInput>
                                                 </Flex>
+                                                <Box display='flex' alignItems='end' gap={4}>
+                                                    <Text color='gray.100'>tamanhos:</Text>
+                                                    <Tabs position="relative" variant="unstyled">
+                                                        <TabList>
+                                                            <Tab>P</Tab>
+                                                            <Tab>M</Tab>
+                                                            <Tab>G</Tab>
+                                                            <Tab>GG</Tab>
+                                                        </TabList>
+                                                        <TabIndicator
+                                                            mt="-1.5px"
+                                                            height="2px"
+                                                            bg="blue.500"
+                                                            borderRadius="1px"
+                                                        />
+                                                    </Tabs>
+                                                </Box>
                                             </Flex>
-
                                             <Flex
                                                 flexDir='column'
                                                 color='gray.200'
                                             >
                                                 <Text>{item.description}</Text>
                                             </Flex>
-
-                                            <Button
-                                                type="submit"
-                                                bgColor='green.700'
-                                                _hover={{ opacity: '0.7' }}
-
-                                                isLoading={isLoadingPurchaseProduct}
-                                            >
-                                                Comprar agora
-                                            </Button>
+                                            <Box display='flex' gap={2}>
+                                                <Button
+                                                    colorScheme="green"
+                                                    leftIcon={<Icon as={BsFillCartFill} />}
+                                                    variant='outline'
+                                                    _hover={{ borderColor: 'green.300' }}
+                                                    onClick={() => handleProduct({
+                                                        id: item.id,
+                                                        name: item.name,
+                                                        price: item.price,
+                                                        quantity: quantity,
+                                                        url: item.images.map(img => { return { url: img.url } }),
+                                                        description: item.description
+                                                    })}
+                                                >
+                                                    Adicionar ao carrinho
+                                                </Button>
+                                                <Button
+                                                    type="submit"
+                                                    bgColor='green.700'
+                                                    _hover={{ opacity: '0.7' }}
+                                                    isLoading={isLoadingPurchaseProduct}
+                                                >
+                                                    Comprar agora
+                                                </Button>
+                                            </Box>
                                         </Flex>
                                     </Flex>
                                 </Flex>

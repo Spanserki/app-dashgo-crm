@@ -175,11 +175,11 @@ export default function UserList() {
 
                                                             </Td>
                                                             <Td>
-                                                                <Link
-                                                                    href={`/usuarios/${item.id}`}
-                                                                    onMouseEnter={() => handlePrefetch(`${item.id}`)}
-                                                                >
+                                                                {!!isEdit && (
                                                                     <Button
+                                                                        as={Link}
+                                                                        href={`/usuarios/${item.id}`}
+                                                                        onMouseEnter={() => handlePrefetch(`${item.id}`)}
                                                                         size='sm'
                                                                         fontSize='sm'
                                                                         type="submit"
@@ -190,7 +190,7 @@ export default function UserList() {
                                                                     >
                                                                         <Icon as={RiPencilLine} />
                                                                     </Button>
-                                                                </Link>
+                                                                )}
                                                             </Td>
                                                         </Tr>
                                                     )
@@ -202,9 +202,7 @@ export default function UserList() {
                                 </Box>
                             )
                             }
-
                         </>
-
                         <Pagination
                             currentPage={page}
                             registersPerPage={perPage}
@@ -220,7 +218,6 @@ export default function UserList() {
 }
 
 export const getServerSideProps = withSSRAuth(async () => {
-
     return {
         props: {},
     };

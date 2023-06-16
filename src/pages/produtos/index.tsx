@@ -26,7 +26,6 @@ export default function Produto() {
     const [searchCategoryId, setSearchCategoryId] = useState('');
     const { data: dataCategories } = GetCategories();
     const { data, isLoading, error, refetch } = FindProducts(`${searchCategoryId}`);
-    console.log(data)
 
     useEffect(() => {
         refetch();
@@ -62,7 +61,8 @@ export default function Produto() {
                 )}
 
                 <Flex
-                    flexDir='column'
+                    w='100%'
+                    justify='space-between'
                     pt={6}
                     gap={2}
                 >
@@ -72,9 +72,9 @@ export default function Produto() {
                     </Flex>
 
                     <Select
-                        placeholder="Categorias"
+                        placeholder="Todos"
                         maxW={200}
-                        size='sm'
+                        size='xs'
                         border='none'
                         bgColor='gray.50'
                         color='gray.900'
@@ -126,6 +126,7 @@ export default function Produto() {
                             data.map(product => {
                                 return (
                                     <Flex
+                                        key={product.id}
                                         w='100%'
                                         h='100%'
                                         maxW='sm'
@@ -146,6 +147,7 @@ export default function Produto() {
                                                     product.images.map(item => {
                                                         return (
                                                             <Flex
+                                                                key={item.id}
                                                                 borderRadius={"md"}
                                                                 overflow={"hidden"}
                                                             >

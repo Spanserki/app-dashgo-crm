@@ -8,7 +8,7 @@ export default function Document() {
       <link
         href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"
       />
-      <title>DashGO</title>
+      <title>Dash</title>
       <link rel='shortcut icon' href='../icon.png' type='image/png' />
       <Head />
       <body>

@@ -9,10 +9,8 @@ import { AuthContextProps, AuthProviderProps, SignInCredentialsProps, UserProps 
 export const AuthContext = createContext({} as AuthContextProps)
 
 export function signOut() {
-
     destroyCookie(undefined, 'token_client')
     destroyCookie(undefined, 'refresh_token')
-
     Router.push('/')
 }
 
@@ -25,7 +23,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const { 'token_client': token } = parseCookies();
 
     useEffect(() => {
-
         if (token) {
             try {
                 api.get('/auth/me').then(response => setUser(response.data))
@@ -36,14 +33,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }, [token])
 
     async function signIn({ email, password }: SignInCredentialsProps) {
-
         try {
             const response = await api.post('/auth', {
                 email,
                 password
             })
-
-            console.log(response)
             const { id, name, token, permissions, refreshToken } = response?.data;
 
             setUser({ name, permissions, id })

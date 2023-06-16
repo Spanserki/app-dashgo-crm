@@ -12,7 +12,7 @@ import {
 import Link from "next/link";
 import { useContext } from "react";
 import { AuthContext, signOut } from "../../context/AuthContext";
-import Notification from "./Notification";
+import Notification from "./Cart";
 import { PrefretchUser } from "../../hooks/server";
 import { GetServerSideProps } from "next";
 
@@ -39,7 +39,7 @@ export default function Profille() {
             {
                 isDescktop ? (
                     <Flex
-                        gap={5}
+                        gap={2}
                         alignItems='center'
                     >
                         <Flex

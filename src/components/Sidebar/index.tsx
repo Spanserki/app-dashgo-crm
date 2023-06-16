@@ -33,7 +33,7 @@ export default function Sidebar() {
                                 <Heading
                                     fontSize={['2xl', "3xl", "4xl"]}
                                 >
-                                    DashGoCRM
+                                    Dash
                                 </Heading>
 
                                 <Heading color='green.500' ml={1}>.</Heading>

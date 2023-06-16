@@ -1,6 +1,6 @@
 import { Flex, Skeleton, Spinner, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
 import { RiContactsLine, RiDashboardLine } from 'react-icons/ri';
-import { BsHandbagFill } from 'react-icons/bs'
+import { BsClock, BsHandbagFill } from 'react-icons/bs'
 import { useCan } from "../../hooks/useCan";
 import Search from "../Header/Search";
 import NavLink from "./NavLink";
@@ -11,10 +11,10 @@ import { GetServerSideProps } from "next";
 import Tour from "../Tour";
 
 export default function SideBarNav() {
-    const { user } = useContext(AuthContext)
     const authorization = useCan({
         permissions: ['users']
     })
+    const { user } = useContext(AuthContext)
     const isWideversion = useBreakpointValue({
         base: false,
         lg: true
@@ -36,25 +36,21 @@ export default function SideBarNav() {
                     {!isWideversion && (
                         <Search />
                     )}
-
                     <Flex>
                         <Text
                             id="tour"
                             color='gray.300'
                         ></Text>
                     </Flex>
-
                     <NavSection
                         title="GERAL"
                     >
-
                         <NavLink
                             id="dashboard"
                             title="Dashboard"
                             url="/dashboard"
                             icon={RiDashboardLine}
                         />
-
                         {!!authorization && (
                             <NavLink
                                 id="users"
@@ -65,7 +61,6 @@ export default function SideBarNav() {
                         )}
 
                     </NavSection>
-
                     <NavSection
                         title="LOJA"
                     >
@@ -76,7 +71,16 @@ export default function SideBarNav() {
                             icon={BsHandbagFill}
                         />
                     </NavSection>
+                    <NavSection
+                        title="FERRAMENTAS"
+                    >
 
+                        <NavLink
+                            title="Timer"
+                            url="/timer"
+                            icon={BsClock}
+                        />
+                    </NavSection>
                     <Tour />
                 </Flex>
             )}

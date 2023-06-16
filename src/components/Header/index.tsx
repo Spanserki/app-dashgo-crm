@@ -46,7 +46,7 @@ export default function Header() {
                 <Heading
                     fontSize={['2xl', "3xl", "4xl"]}
                 >
-                    DashGo
+                    Dash
                 </Heading>
 
                 <Heading color='green.500' ml={1}>.</Heading>

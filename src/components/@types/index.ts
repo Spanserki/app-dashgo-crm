@@ -25,11 +25,24 @@ export interface imageProps {
     id: string;
     url: string;
 }
-export interface producsProps {
-    products: {
-        id: string;
-        name: string;
-        images: imageProps[];
-        price: number;
-    }[]
+
+export interface ProductProps {
+    id: string;
+    name: string;
+    price: string;
+    url: imageProps;
+    quantity: number;
+    description: string;
+    userId?: string;
+}
+
+export interface CartProviderProps {
+    children: ReactNode;
+}
+
+export interface CartContextProps {
+    cart: ProductProps[];
+    handleProduct: ({ id, name, price, quantity, url }: ProductProps) => Promise<void>
+    removeProduct: (id: string) => Promise<void>
+    updateQtdProduct: (id: string, qtd: number) => Promise<void>
 }
