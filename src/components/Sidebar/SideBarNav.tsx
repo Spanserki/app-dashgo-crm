@@ -66,6 +66,7 @@ export default function SideBarNav() {
                     >
 
                         <NavLink
+                            id="products"
                             title="Produtos"
                             url="/produtos"
                             icon={BsHandbagFill}
@@ -76,6 +77,7 @@ export default function SideBarNav() {
                     >
 
                         <NavLink
+                            id="timer"
                             title="Timer"
                             url="/timer"
                             icon={BsClock}

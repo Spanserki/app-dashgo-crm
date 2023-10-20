@@ -54,10 +54,9 @@ export default function CreateUser() {
 
     const createProduct: SubmitHandler<any> = async values => {
         try {
-            const response = await api.post('/products/create', {
+            await api.post('/products/create', {
                 values
             }).then(res => console.log(res))
-
             toast({
                 position: 'bottom',
                 title: '😁',
@@ -237,6 +236,7 @@ export default function CreateUser() {
                                             inputImage.map(input => {
                                                 return (
                                                     <Flex
+                                                        key={input.id}
                                                         gap={2}
                                                         align='center'
                                                     >
@@ -296,16 +296,12 @@ export default function CreateUser() {
                         </Flex>
                     </Flex>
                 )
-
             }
-
         </Layout>
-
     )
 }
 
 export const getServerSideProps = withSSRAuth(async () => {
-
     return {
         props: {},
     };

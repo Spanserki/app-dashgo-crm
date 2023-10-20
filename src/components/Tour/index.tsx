@@ -98,7 +98,52 @@ export default function Tour() {
                     target: '#users',
                     placement: 'right'
                 },
+                {
+                    title: 'Produtos 💚',
+                    content: (
+                        <>
+                            <Container
+                                bgColor='green.100'
+                                py={8}
+                                rounded='md'
+                            >
+                                <Text>
+                                Aqui são os produtos que estão disponíveis em sua loja, você pode criar novos produtos para venda, ver avaliações dos clientes, adicionar ao seu carrinho e comprar
+                                </Text>
 
+                                <Image
+                                    pt={4}
+                                    src='../tourProducts.png'
+                                />
+                            </Container>
+                        </>
+                    ),
+                    target: '#products',
+                    placement: 'right'
+                },
+                {
+                    title: 'Tarefas 💚',
+                    content: (
+                        <>
+                            <Container
+                                bgColor='green.100'
+                                py={8}
+                                rounded='md'
+                            >
+                                <Text>
+                                    Aqui você poderá criar tarefas do seu cotidiano dentro da plataforma, assim te ajudando a medir o tempo de cada tarefa sua ou até mesmo para estudar algo importante.
+                                </Text>
+
+                                <Image
+                                    pt={4}
+                                    src='../tourTimer.png'
+                                />
+                            </Container>
+                        </>
+                    ),
+                    target: '#timer',
+                    placement: 'right'
+                },
             ]}
         />
     )
